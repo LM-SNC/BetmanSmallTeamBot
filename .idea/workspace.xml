@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ec0f7299-283e-46c3-a85e-47c72954d764" name="Default Changelist" comment="" />
+    <list default="true" id="ec0f7299-283e-46c3-a85e-47c72954d764" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BetmanSmallTeamBot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/BanBot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/Bot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/CreateChannel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/DyntaxCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/GiftBot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/RR.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/UsersMassInformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Bot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/art/bot/MessageHandler.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +29,12 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/art/bot/GiftBot.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
       <MavenImportingSettings>
@@ -23,10 +43,17 @@
     </option>
   </component>
   <component name="ProjectId" id="1dEc5sSrsebdHx8hK3haz3TtNsw" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../plugMine" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ART\IdeaProjects\Discoedot\src\main\java\art\bot" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -42,7 +69,7 @@
   </component>
   <component name="RunManager">
     <configuration name="Bot" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Bot" />
+      <option name="MAIN_CLASS_NAME" value="art.bot.Bot" />
       <module name="Discoedot" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -66,5 +93,18 @@
       <updated>1591993512619</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
