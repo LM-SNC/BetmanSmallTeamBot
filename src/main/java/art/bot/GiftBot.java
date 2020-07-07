@@ -1,6 +1,8 @@
 package art.bot;
 
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -25,26 +27,25 @@ public class GiftBot extends ListenerAdapter {
             {"728372880743596063", "728372858824294511"}
     };
 
-    Message globalMessage;
-    String channelStr = "719317467117256794";
-    MyRunnable myRunnable;
-    Thread t;
-    int iteration;
+    private Message globalMessage;
+    private String channelStr = "719317467117256794";
+    private TextChannel textChannelUse;
+    private MyRunnable myRunnable;
+    private Thread t;
+    private int iteration;
+    int questionStep;
 
+    private String[][] userEmojiAnswer;
+    private ArrayList<String> acceptUsersIdStart = new ArrayList();
+    private ArrayList<String> looseList = new ArrayList<>();
 
-    public ArrayList<String> acceptUsersId = new ArrayList();
-    public ArrayList<UsersMassInformation> updateAcceptUserId = new ArrayList();
-    public ArrayList<String> nonActiveList = new ArrayList();
-
-    public ArrayList<String> reactionUserId = new ArrayList();
-    public ArrayList<String> reactionEmojiId = new ArrayList();
 
     public boolean onStartBool;
-    int questionStep;
     boolean onQuestionTime;
 
     @Override
     public void onReady(@Nonnull ReadyEvent event) {
+        textChannelUse = event.getJDA().getTextChannelById(channelStr);
         onStartBool = true;
         Message message = (Message) event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Викторина" + "\n" + "Осталось: 1:00" + "\n" + "```")).complete();
         globalMessage = message;
@@ -63,7 +64,7 @@ public class GiftBot extends ListenerAdapter {
     }
 
     public void startVictorIn(Event event) {
-        System.out.println("Count accept user: " + acceptUsersId.size());
+        System.out.println("Count accept user: " + acceptUsersIdStart.size());
 //        String onlineList = "";
 //        for (int i = 0; i < event.getJDA().getTextChannelById(channelStr).getMembers().size(); i++){
 //            if(event.getJDA().getTextChannelById(channelStr).getMembers().get(i).getOnlineStatus().equals(OnlineStatus.ONLINE)){
@@ -72,18 +73,30 @@ public class GiftBot extends ListenerAdapter {
 //        }
         //event.getJDA().getTextChannelById(channelStr).getMembers().forEach(member -> member.getPermissions().remove(Permission.MESSAGE_ADD_REACTION));Удаляем права
         String acceptListString = "";
-        System.out.println(acceptUsersId.size());
-        for (int i = 0; i < event.getJDA().getTextChannelById(channelStr).getMembers().size(); i++) {
-            for (int b = 0; b < acceptUsersId.size(); b++) {
-                if (event.getJDA().getTextChannelById(channelStr).getMembers().get(i).getId().equalsIgnoreCase(acceptUsersId.get(b))) {
-                    acceptListString = acceptListString + " " + event.getJDA().getTextChannelById(channelStr).getMembers().get(i).getEffectiveName();
-                }
-            }
+        userEmojiAnswer = new String[2][acceptUsersIdStart.size()];
+
+        for (int i = 0; i < acceptUsersIdStart.size(); i++) {
+            acceptListString = acceptListString + " " + getUserName(acceptUsersIdStart.get(i), event);
+            System.out.println(i);
+            System.out.println(acceptUsersIdStart.size() + " size");
+            userEmojiAnswer[0][i] = acceptUsersIdStart.get(i);
         }
 
+
         event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Викторина началсь!" + "\n" + "Приняли участие:" + acceptListString + "\n" + "```")).complete();
+        acceptUsersIdStart.clear();
         //event.getJDA().getTextChannelById(channelStr).sendMessage("Не успели принять участие: " + onlineList).queue();
 
+    }
+
+    public String getUserName(String getId, Event event) {
+        String name = "";
+        for (Member itVar : textChannelUse.getMembers()) {
+            if (itVar.getId().equalsIgnoreCase(getId)) {
+                name = itVar.getEffectiveName();
+            }
+        }
+        return name;
     }
 
     public void onNextQuestion(Event event) {
@@ -107,123 +120,67 @@ public class GiftBot extends ListenerAdapter {
     }
 
     public void onResult(Event event) {
-        System.out.println("questionNumber: " + questionStep);
-        String trueUser = "";
-        String falseUser = "";
-        boolean isDuplicated = false;
-        int[] a1 = {2, 4, 5, 7};
-        int[] a2 = {2, 4, 5};
-        ArrayList a3 = new ArrayList();
-        for (int i = 0; i < acceptUsersId.size(); i++) {
-            System.out.println(acceptUsersId.get(i) + " acceptUsersId ");
-        }
-        for (int j = 0; j < reactionUserId.size(); j++) {
-            System.out.println(reactionEmojiId.get(j) + " reactionUserId ");
-        }
-
-        isDuplicated = false;
-        for (int i = 0; i < acceptUsersId.size(); i++) {
-            isDuplicated = false;
-            for (int j = 0; j < reactionUserId.size(); j++) {
-                if (acceptUsersId.get(i).equals(reactionUserId.get(j))) {
-                    isDuplicated = true;
-                }
-            }
-            if (!isDuplicated) {
-                nonActiveList.add(acceptUsersId.get(i));
-                for (int sucs = 0; sucs < event.getJDA().getTextChannelById(channelStr).getMembers().size(); sucs++) {
-                    for (int usersuc = 0; usersuc < acceptUsersId.size(); usersuc++) {
-                        if (event.getJDA().getTextChannelById(channelStr).getMembers().get(sucs).getId().equalsIgnoreCase(acceptUsersId.get(usersuc))) {
-                            falseUser = falseUser + " " + event.getJDA().getTextChannelById(channelStr).getMembers().get(sucs).getEffectiveName();
-                        }
-                    }
-                }
-                acceptUsersId.remove(i);
-
-            }
-            for (int react = 0; react < reactionUserId.size(); react++) {
-                if (reactionEmojiId.get(react).equalsIgnoreCase(answerAndQuestion[1][questionStep])) {
-                    System.out.println("Успех!" + reactionEmojiId.get(react));
-                    for (int sucs = 0; sucs < event.getJDA().getTextChannelById(channelStr).getMembers().size(); sucs++) {
-                        for (int usersuc = 0; usersuc < reactionUserId.size(); usersuc++) {
-                            if (event.getJDA().getTextChannelById(channelStr).getMembers().get(sucs).getId().equalsIgnoreCase(reactionUserId.get(usersuc))) {
-                                trueUser = trueUser + " " + event.getJDA().getTextChannelById(channelStr).getMembers().get(sucs).getEffectiveName();
-                            }
-                        }
-                    }
-
+        String trueUsers = "";
+        String falseUsers = "";
+        for (String loose : looseList) {
+            for (String user : userEmojiAnswer[0]) {
+                if (loose.equalsIgnoreCase(user)) {
+                    System.out.println("Игрок " + getUserName(user, event) + " находится в looseList!");
+                    return;
                 } else {
-                    System.out.println("Ошибка!(remove)" + reactionEmojiId.get(react));
-                    for (int sucs = 0; sucs < event.getJDA().getTextChannelById(channelStr).getMembers().size(); sucs++) {
-                        for (int usersuc = 0; usersuc < reactionUserId.size(); usersuc++) {
-                            if (event.getJDA().getTextChannelById(channelStr).getMembers().get(sucs).getId().equalsIgnoreCase(reactionUserId.get(usersuc))) {
-                                falseUser = falseUser + " " + event.getJDA().getTextChannelById(channelStr).getMembers().get(sucs).getEffectiveName();
-                            }
-                        }
-                    }
-                    acceptUsersId.remove(i);
+                    System.out.println("Игрок " + getUserName(user, event) + " не находится в looseList!");
                 }
             }
         }
-        for (int i = 0; i < nonActiveList.size(); i++) {
-            System.out.println(nonActiveList.get(i) + "clearForDiff");
+        for (String user : userEmojiAnswer[0]) {
+            for (String var : userEmojiAnswer[1]) {
+                if (var == null) {
+                    falseUsers = falseUsers + " " + getUserName(user, event);
+                    System.out.println("Игрок " + getUserName(user, event) + " не успел ответить!");
+                    looseList.add(user);
+                    System.out.println("Игрок " + getUserName(user, event) + " добавлен в looseList!");
+                } else if (var.equalsIgnoreCase(answerAndQuestion[1][questionStep])) {
+                    System.out.println("Игрок " + getUserName(user, event) + "ответил правильно!");
+                    trueUsers = trueUsers + " " + getUserName(user, event);
+                } else {
+                    falseUsers = falseUsers + " " + getUserName(user, event);
+                    System.out.println("Игрок " + getUserName(user, event) + " ответил неправильно!");
+                    looseList.add(user);
+                    System.out.println("Игрок " + getUserName(user, event) + " добавлен в looseList!");
+                }
+            }
         }
-        event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Время истекло!" + "\n" + "Правильно ответили:" + trueUser + "\n" + "Выбыли:" + falseUser + "\n" + "```")).queue();
-        reactionUserId.clear();
-        reactionEmojiId.clear();
-        nonActiveList.clear();
+        for (int i = 0; i < userEmojiAnswer[1].length; i++) {
+            userEmojiAnswer[1][i] = null;
+        }
+        event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Время истекло!" + "\n" + "Правильно ответили:" + trueUsers + "\n" + "Выбыли:" + falseUsers + "\n" + "```")).queue();
     }
 
     @Override
     public void onMessageReactionAdd(@Nonnull MessageReactionAddEvent event) {
-        if (event.getReaction().getReactionEmote().getId().equalsIgnoreCase("729000468730085426") && !event.getUser().isBot() && onStartBool) {
-            for (int i = 0; i < acceptUsersId.size(); i++) {
-                if (event.getMember().getId().equalsIgnoreCase(acceptUsersId.get(i))) {
-                    System.out.println(acceptUsersId.get(i) + " уже есть  массиве!");
+        if (event.getReaction().getReactionEmote().getId().equalsIgnoreCase("729000468730085426") && !event.getUser().isBot() && onStartBool && event.getMessageId().equalsIgnoreCase(globalMessage.getId())) {
+            for (String var : acceptUsersIdStart) {
+                if (event.getMember().getId().equalsIgnoreCase(var)) {
+                    System.out.println("GiftBot::onMessageReactionAdd(); -- ID: " + event.getMember().getId() + " Name: " + getUserName(event.getMember().getId(), event) + " уже есть в массиве(acceptUsersIdStart)!");
                     return;
                 }
             }
-            String id = event.getMember().getId();
-            for (UsersMassInformation usersMassInformation : updateAcceptUserId) {
-                if (!usersMassInformation.userId.equalsIgnoreCase(id)) {
-
+            acceptUsersIdStart.add(event.getMember().getId());
+            System.out.println("GiftBot::onMessageReactionAdd(); -- ID: " + event.getMember().getId() + " Name: " + getUserName(event.getMember().getId(), event) + " был успешно добавлен в массив(acceptUsersIdStart)!");
+        }
+        for (String loose : looseList) {
+            for (String user : userEmojiAnswer[0]) {
+                if (loose.equalsIgnoreCase(user)) {
+                    return;
+                } else {
                 }
             }
-            UsersMassInformation usersMassInformation = new UsersMassInformation(id);
-            updateAcceptUserId.add(usersMassInformation);
-
-            acceptUsersId.add(event.getMember().getId());
         }
         if (!event.getUser().isBot() && onQuestionTime && event.getMessageId().equalsIgnoreCase(globalMessage.getId())) {
-            for (int i = 0; i < acceptUsersId.size(); i++) {
-                for (int b = 0; b < reactionUserId.size(); b++) {
-                    if (acceptUsersId.get(i).equalsIgnoreCase(reactionUserId.get(b))) {
-                        reactionEmojiId.set(b, event.getReactionEmote().getId());
-//                        System.out.println(event.getReactionEmote().getId() + " эмодзи был успешно изменен!");
-//                        System.out.println(event.getMember().getId() + " игрок уже есть в массиве!");
-                        return;
-                    }
-                }
-                reactionEmojiId.add(event.getReactionEmote().getId());
-//                System.out.println(event.getReactionEmote().getId() + " эмодзи был учпешно добавлен!");
-                System.out.println(i);
-
-                reactionUserId.add(event.getMember().getId());
-//                System.out.println(event.getMember().getId() + " игрок был учпешно добавлен!");
-                System.out.println(i);
-            }
-            String memberReactionId = event.getMember().getId();
-            System.out.println("GiftBot::onMessageReactionAdd(); --Thread.currentThread(): " + Thread.currentThread());
-
-            for (UsersMassInformation usersMassInformation : updateAcceptUserId) {
-                System.out.println("GiftBot::onMessageReactionAdd(); --usersMassInformation: " + usersMassInformation);
-                if (usersMassInformation.userId.equalsIgnoreCase(memberReactionId)) {
-                    usersMassInformation.userInfo.put(questionStep, event.getMember().getId());
-                    System.out.println("GiftBot::onMessageReactionAdd(); --userId: " + usersMassInformation.userId);
-                    System.out.println("GiftBot::onMessageReactionAdd(); --userInfo: " + usersMassInformation.userInfo);
-                    System.out.println("GiftBot::onMessageReactionAdd(); --questionStep: " + questionStep);
-                    System.out.println("GiftBot::onMessageReactionAdd(); --reactionId: " + event.getReaction().getReactionEmote().getId());
-
+            for (int i = 0; i < userEmojiAnswer[0].length; i++) {
+                if (event.getMember().getId().equalsIgnoreCase(userEmojiAnswer[0][i])) {
+                    userEmojiAnswer[1][i] = event.getReactionEmote().getId();
+                    System.out.println("GiftBot::onMessageReactionAdd(); -- ID: " + event.getMember().getId() + " Name: " + getUserName(event.getMember().getId(), event) + " ReactionId: " + event.getReactionEmote().getId() + " был успешно добавлен в массив(userEmojiAnswer[1][" + i + "]");
                 }
             }
         }
@@ -238,6 +195,7 @@ public class GiftBot extends ListenerAdapter {
 
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
     }
+
 }
 
 class MyRunnable implements Runnable {
@@ -252,7 +210,7 @@ class MyRunnable implements Runnable {
 
     public void run() {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(11000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -263,7 +221,7 @@ class MyRunnable implements Runnable {
             giftBot.onNextQuestion(event);
             giftBot.onQuestionTime = true;
             try {
-                Thread.sleep(15000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

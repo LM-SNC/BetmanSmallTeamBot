@@ -2,19 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec0f7299-283e-46c3-a85e-47c72954d764" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BetmanSmallTeamBot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/BanBot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/Bot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/CreateChannel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/DyntaxCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/GiftBot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/RR.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/UsersMassInformation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Bot.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/art/bot/MessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/art/bot/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/art/bot/Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/art/bot/GiftBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/art/bot/GiftBot.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -92,6 +82,14 @@
       <option name="presentableId" value="Default" />
       <updated>1591993512619</updated>
     </task>
+    <task id="LOCAL-00001" summary="RussianRoulette,SyntaxCode,GiftBot(Don'tWork)">
+      <created>1594072629226</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1594072629226</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -106,5 +104,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="RussianRoulette,SyntaxCode,GiftBot(Don'tWork)" />
+    <option name="LAST_COMMIT_MESSAGE" value="RussianRoulette,SyntaxCode,GiftBot(Don'tWork)" />
   </component>
 </project>
