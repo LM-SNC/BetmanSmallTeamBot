@@ -89,7 +89,14 @@
       <option name="project" value="LOCAL" />
       <updated>1594072629226</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="GiftBot fix more bugs">
+      <created>1594144221598</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1594144221598</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -107,6 +114,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="RussianRoulette,SyntaxCode,GiftBot(Don'tWork)" />
-    <option name="LAST_COMMIT_MESSAGE" value="RussianRoulette,SyntaxCode,GiftBot(Don'tWork)" />
+    <MESSAGE value="GiftBot fix more bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="GiftBot fix more bugs" />
   </component>
 </project>

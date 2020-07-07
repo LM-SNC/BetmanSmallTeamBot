@@ -24,7 +24,7 @@ public class GiftBot extends ListenerAdapter {
             "2) 2015\n" +
             "3) 2018\n" +
             "4) 2004" + "\n" + "```"},
-            {"728372880743596063", "728372858824294511"}
+            {"728372880743596063", "728372880743596063"}
     };
 
     private Message globalMessage;
@@ -38,6 +38,11 @@ public class GiftBot extends ListenerAdapter {
     private String[][] userEmojiAnswer;
     private ArrayList<String> acceptUsersIdStart = new ArrayList();
     private ArrayList<String> looseList = new ArrayList<>();
+
+    String falseUsers = "";
+    String trueUsers = "";
+    String falseUsersInfinity = "";
+    String trueUsersInfinity = "";
 
 
     public boolean onStartBool;
@@ -120,40 +125,105 @@ public class GiftBot extends ListenerAdapter {
     }
 
     public void onResult(Event event) {
-        String trueUsers = "";
-        String falseUsers = "";
+        trueUsers = "";
+        falseUsers = "";
         for (String loose : looseList) {
             for (String user : userEmojiAnswer[0]) {
                 if (loose.equalsIgnoreCase(user)) {
                     System.out.println("Игрок " + getUserName(user, event) + " находится в looseList!");
-                    return;
+
                 } else {
                     System.out.println("Игрок " + getUserName(user, event) + " не находится в looseList!");
                 }
             }
         }
-        for (String user : userEmojiAnswer[0]) {
-            for (String var : userEmojiAnswer[1]) {
-                if (var == null) {
-                    falseUsers = falseUsers + " " + getUserName(user, event);
-                    System.out.println("Игрок " + getUserName(user, event) + " не успел ответить!");
-                    looseList.add(user);
-                    System.out.println("Игрок " + getUserName(user, event) + " добавлен в looseList!");
-                } else if (var.equalsIgnoreCase(answerAndQuestion[1][questionStep])) {
-                    System.out.println("Игрок " + getUserName(user, event) + "ответил правильно!");
-                    trueUsers = trueUsers + " " + getUserName(user, event);
-                } else {
-                    falseUsers = falseUsers + " " + getUserName(user, event);
-                    System.out.println("Игрок " + getUserName(user, event) + " ответил неправильно!");
-                    looseList.add(user);
-                    System.out.println("Игрок " + getUserName(user, event) + " добавлен в looseList!");
-                }
+        for (int i = 0; i < userEmojiAnswer[0].length; i++) {
+            if (userEmojiAnswer[1][i] == null) {
+                falseUsers = falseUsers + " " + getUserName(userEmojiAnswer[0][i], event);
+                System.out.println("Игрок " + getUserName(userEmojiAnswer[0][i], event) + " не успел ответить!");
+                looseList.add(userEmojiAnswer[0][i]);
+                System.out.println("Игрок " + getUserName(userEmojiAnswer[0][i], event) + " добавлен в looseList!");
+            } else if (userEmojiAnswer[1][i].equalsIgnoreCase(answerAndQuestion[1][questionStep])) {
+                System.out.println("Игрок " + getUserName(userEmojiAnswer[0][i], event) + "ответил правильно!");
+                trueUsers = trueUsers + " " + getUserName(userEmojiAnswer[0][i], event);
+            } else {
+                falseUsers = falseUsers + " " + getUserName(userEmojiAnswer[0][i], event);
+                System.out.println("Игрок " + getUserName(userEmojiAnswer[0][i], event) + " ответил неправильно!");
+                looseList.add(userEmojiAnswer[0][i]);
+                System.out.println("Игрок " + getUserName(userEmojiAnswer[0][i], event) + " добавлен в looseList!");
             }
         }
         for (int i = 0; i < userEmojiAnswer[1].length; i++) {
             userEmojiAnswer[1][i] = null;
         }
         event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Время истекло!" + "\n" + "Правильно ответили:" + trueUsers + "\n" + "Выбыли:" + falseUsers + "\n" + "```")).queue();
+    }
+
+    public void startVictorInEnd(Event event) {
+        ArrayList<String> winList = new ArrayList<>();
+        ArrayList<String> looseListEnd = new ArrayList<>();
+
+        boolean duplicated;
+        boolean doWhile = false; //Никита, не бей. Костыли - движлк прогресса
+
+        System.out.println("Ведём подсчёт!");
+        for (String user : userEmojiAnswer[0]) {
+            duplicated = false;
+
+
+            for (String loose : looseList) {
+                doWhile = true;
+                duplicated = false;
+                for (String win : winList) {
+                    if (user.equalsIgnoreCase(win)) {
+                        System.out.println(getUserName(user, event) + " игрок уже есть в массиве winList");
+                        duplicated = true;
+                    }
+                }
+
+                for (String loosse : looseListEnd) {
+                    if (user.equalsIgnoreCase(loosse)) {
+                        System.out.println(getUserName(user, event) + " игрок уже есть в массиве looseListEnd");
+                        duplicated = true;
+                    }
+                }
+
+                if (user.equalsIgnoreCase(loose) && !duplicated) {
+                    System.out.println(getUserName(user, event) + " игрок был добавлен в список looseListEnd");
+                    looseListEnd.add(user);
+                } else if (!duplicated) {
+                    System.out.println(getUserName(user, event) + " игрок был добавлен в список winList");
+                    winList.add(user);
+                }
+            }
+            if (!doWhile) {
+                for (String users : userEmojiAnswer[0]) {
+                    winList.add(users);
+                }
+            }
+        }
+
+        for (String looss : looseListEnd) {
+            falseUsersInfinity = falseUsersInfinity + " " + getUserName(looss, event);
+        }
+        for (String win : winList) {
+            trueUsersInfinity = trueUsersInfinity + " " + getUserName(win, event);
+            for(Member member : textChannelUse.getMembers()) {
+                if (win.equalsIgnoreCase(member.getId())) {
+                    member.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("Ты выиграл!")).queue();
+                    System.out.println(getUserName(win, event) + " данному игроку был выдан ключ");
+                }
+            }
+        }
+
+        event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Викторина окончена!" + "\n" + "Победители:" + trueUsersInfinity + "\n" + "Выбывшие:" + falseUsersInfinity + "\n" + "```")).queue();
+
+
+//        if (win.equalsIgnoreCase(member.getId())) {
+//            member.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("Ты выиграл!")).queue();
+//            System.out.println(getUserName(user, event) + " данному игроку был выдан ключ");
+//        }
+        event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Ключи были отправлены!" + "\n" + "```")).queue();
     }
 
     @Override
@@ -173,6 +243,7 @@ public class GiftBot extends ListenerAdapter {
                 if (loose.equalsIgnoreCase(user)) {
                     return;
                 } else {
+
                 }
             }
         }
@@ -210,7 +281,7 @@ class MyRunnable implements Runnable {
 
     public void run() {
         try {
-            Thread.sleep(11000);
+            Thread.sleep(12000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -229,6 +300,7 @@ class MyRunnable implements Runnable {
             giftBot.onResult(event);
             giftBot.questionStep++;
         }
+        giftBot.startVictorInEnd(event);
         System.out.println("Викторина окончена!");
     }
 }
