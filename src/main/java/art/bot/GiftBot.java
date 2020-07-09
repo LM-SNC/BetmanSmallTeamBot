@@ -15,25 +15,20 @@ import java.util.concurrent.TimeUnit;
 
 public class GiftBot extends ListenerAdapter {
     String emotesNumber[] = {"728372880743596063", "728372858824294511", "728372894438260736", "728372909080444929"};
-    public String[][] answerAndQuestion = {{"```" + "\n" + "В каком году путин обнулился?\n" +
-            "1) 2020\n" +
-            "2) 2015\n" +
-            "3) 2018\n" +
-            "4) 2004" + "\n" + "```", "```" + "\n" + "В каком году путин обнулился?\n" +
-            "1) 2020\n" +
-            "2) 2015\n" +
-            "3) 2018\n" +
-            "4) 2004" + "\n" + "```"},
-            {"728372880743596063", "728372880743596063"}
+    public String[][] answerAndQuestion = {{"```" + "\n" + "В каком году путин обнулился?\n" + "1) 2008\n" + "2) 2015\n" + "3) 2020\n" + "4) 2000" + "\n" + "```", "```" + "\n" + "У фермера было 30 овец, и все, кроме пятнадцати умерли. Сколько овец осталось у фермера? \n" + "1) 23\n" + "2) 15\n" + "3) 18\n" + "4) 9" + "\n" + "```", "```" + "\n" + "Столица венгрии?\n" + "1) Белград\n" + "2) Канберра\n" + "3) Оттава\n" + "4) Будапешт" + "\n" + "```", "```" + "\n" + "В греческой мифологии: герой, совершивший 12 подвигов\n" + "1) Орфей\n" + "2) Одиссей\n" + "3) Персей\n" + "4) Геракл" + "\n" + "```", "```" + "\n" + "Знак, обозначающий звук определенной высоты\n" + "1) Нота\n" + "2) Цифра\n" + "3) Слово\n" + "4) Децибел" + "\n" + "```", "```" + "\n" + "Пустыня в Африке\n" + "1) Калахари\n" + "2) Сахара\n" + "3) Патагонская\n" + "4) Чиуауа " + "\n" + "```"},
+            {"728372894438260736", "728372858824294511", "728372909080444929", "728372909080444929", "728372880743596063", "728372858824294511"}
     };
 
+    String[] keys = {"hRnon9DnnPLOEsdhm8Ub", "rimv4mijjxmsrg21ETMq", "rY8JozrtWdluIyPC4hhW", "JJaPtB6IZxnRAmI6iHzx", "CpXmafhKXFtGodtU9sRu", "bEbRffSy3KiGPJMatS2C", "2HfBJ0i10QBIffLp8lKV", "pk5DPjZKiWEX62kPPlX1", "hRnon9DnnPLOEsdhm8Ub", "rimv4mijjxmsrg21ETMq", "rY8JozrtWdluIyPC4hhW", "JJaPtB6IZxnRAmI6iHzx", "CpXmafhKXFtGodtU9sRu",};
+    int key = 0;
+
     private Message globalMessage;
-    private String channelStr = "719317467117256794";
+    private String channelStr = "";
     private TextChannel textChannelUse;
     private MyRunnable myRunnable;
     private Thread t;
     private int iteration;
-    int questionStep;
+    int questionStep = -1;
 
     private String[][] userEmojiAnswer;
     private ArrayList<String> acceptUsersIdStart = new ArrayList();
@@ -58,9 +53,9 @@ public class GiftBot extends ListenerAdapter {
         myRunnable = new MyRunnable(this, event);
         t = new Thread(myRunnable);
         t.start();
-        for (int i = 10; i >= 0; i--) {
+        for (int i = 300; i >= 0; i--) {
             iteration += 1;
-            message.editMessage("```" + "\n" + "Викторина" + "\n" + "Осталось: 0:" + i + "\n" + "Вы принимаете участие в викторине?" + "\n" + "```").queueAfter(iteration, TimeUnit.SECONDS);
+            message.editMessage("```" + "\n" + "Викторина" + "\n" + "Осталось: " + i + "\n" + "Вы принимаете участие в викторине?" + "\n" + "```").queueAfter(iteration, TimeUnit.SECONDS);
         }
         System.out.println(event.getJDA().getEmotes() + " SNC");
         globalMessage.addReaction(event.getJDA().getEmoteById("729000468730085426")).queue();
@@ -89,7 +84,7 @@ public class GiftBot extends ListenerAdapter {
 
 
         event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Викторина началсь!" + "\n" + "Приняли участие:" + acceptListString + "\n" + "```")).complete();
-        acceptUsersIdStart.clear();
+//        acceptUsersIdStart.clear();
         //event.getJDA().getTextChannelById(channelStr).sendMessage("Не успели принять участие: " + onlineList).queue();
 
     }
@@ -118,25 +113,25 @@ public class GiftBot extends ListenerAdapter {
             // System.out.println(globalMessage.getReactions());
         }
 
-        for (int i = 10; i >= 0; i--) {
-            iteration += 1;
+        for (int i = 11; i >= 0; i--) {
+            iteration++;
             message.editMessage(msg + "\n" + "Осталось: " + i).queueAfter(iteration, TimeUnit.SECONDS);
         }
     }
 
     public void onResult(Event event) {
+        System.out.println("Question number: " + questionStep);
         trueUsers = "";
         falseUsers = "";
-        for (String loose : looseList) {
-            for (String user : userEmojiAnswer[0]) {
-                if (loose.equalsIgnoreCase(user)) {
-                    System.out.println("Игрок " + getUserName(user, event) + " находится в looseList!");
-
-                } else {
-                    System.out.println("Игрок " + getUserName(user, event) + " не находится в looseList!");
-                }
-            }
-        }
+//        for (String loose : looseList) {
+//            for (String user : userEmojiAnswer[0]) {
+//                if (loose.equalsIgnoreCase(user)) {
+//                    System.out.println("Игрок " + getUserName(user, event) + " находится в looseList!");
+//                } else {
+//                    System.out.println("Игрок " + getUserName(user, event) + " не находится в looseList!");
+//                }
+//            }
+//        }
         for (int i = 0; i < userEmojiAnswer[0].length; i++) {
             if (userEmojiAnswer[1][i] == null) {
                 falseUsers = falseUsers + " " + getUserName(userEmojiAnswer[0][i], event);
@@ -156,7 +151,7 @@ public class GiftBot extends ListenerAdapter {
         for (int i = 0; i < userEmojiAnswer[1].length; i++) {
             userEmojiAnswer[1][i] = null;
         }
-        event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Время истекло!" + "\n" + "Правильно ответили:" + trueUsers + "\n" + "Выбыли:" + falseUsers + "\n" + "```")).queue();
+        event.getJDA().getTextChannelById(channelStr).sendMessage(("```" + "\n" + "Время истекло!" + "```")).queue();
     }
 
     public void startVictorInEnd(Event event) {
@@ -202,16 +197,16 @@ public class GiftBot extends ListenerAdapter {
                 }
             }
         }
-
         for (String looss : looseListEnd) {
             falseUsersInfinity = falseUsersInfinity + " " + getUserName(looss, event);
         }
         for (String win : winList) {
             trueUsersInfinity = trueUsersInfinity + " " + getUserName(win, event);
-            for(Member member : textChannelUse.getMembers()) {
+            for (Member member : textChannelUse.getMembers()) {
                 if (win.equalsIgnoreCase(member.getId())) {
-                    member.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("Ты выиграл!")).queue();
+                    member.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("Ты выиграл! " + keys[key])).queue();
                     System.out.println(getUserName(win, event) + " данному игроку был выдан ключ");
+                    key++;
                 }
             }
         }
@@ -242,9 +237,8 @@ public class GiftBot extends ListenerAdapter {
             for (String user : userEmojiAnswer[0]) {
                 if (loose.equalsIgnoreCase(user)) {
                     return;
-                } else {
-
                 }
+
             }
         }
         if (!event.getUser().isBot() && onQuestionTime && event.getMessageId().equalsIgnoreCase(globalMessage.getId())) {
@@ -281,24 +275,24 @@ class MyRunnable implements Runnable {
 
     public void run() {
         try {
-            Thread.sleep(12000);
+            Thread.sleep(310000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         giftBot.startVictorIn(event);
         giftBot.onStartBool = false;
 
-        for (int i = 0; i < giftBot.answerAndQuestion.length; i++) {
+        for (int i = 0; i < giftBot.answerAndQuestion[0].length; i++) {
+            giftBot.questionStep++;
             giftBot.onNextQuestion(event);
             giftBot.onQuestionTime = true;
             try {
-                Thread.sleep(10000);
+                Thread.sleep(12000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             giftBot.onQuestionTime = false;
             giftBot.onResult(event);
-            giftBot.questionStep++;
         }
         giftBot.startVictorInEnd(event);
         System.out.println("Викторина окончена!");
