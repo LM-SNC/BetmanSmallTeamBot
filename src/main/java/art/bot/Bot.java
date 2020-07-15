@@ -9,13 +9,13 @@ public class Bot {
 
     public static void main(String[] args) throws Exception {
         String active = "BSTeam - discord.gg/xp2KrvD";
-        JDA jda = new JDABuilder(" ")
+        JDA jda = new JDABuilder("Du4Dmd6N_DQoU")
                 .addEventListeners(new MessageHandler())
                // .addEventListeners(new RR())
                 .addEventListeners(new DyntaxCode())
                // .addEventListeners(new CreateChannel())
                 .addEventListeners(new ShopMiniGames())
-//                .addEventListeners(new RrMiniGames())
+                .addEventListeners(new RrMiniGames())
                 .addEventListeners(new CasinoRouletteMiniGames())
                 .addEventListeners(new Blitz())
                 .setActivity(Activity.playing(active))

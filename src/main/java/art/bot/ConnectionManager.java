@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.Event;
 import java.sql.*;
 
 public class ConnectionManager {
-    String url = "jdbc:mysql:/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    String url = "jdbc:mysql://46.173.221.33:3306/user1002711_unionsecond?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     String username = "";
     String password = "";
 
@@ -105,7 +105,7 @@ public class ConnectionManager {
             // statement.executeUpdate("ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4;");
 
             ResultSet rsMoney = statement.executeQuery("SELECT money FROM users WHERE userId = '" + id + "';");
-            int money = getMoney(id);
+            int money = 0;
             if (rsMoney.next()) {
                 System.out.println(rsMoney.getString(1) + " Значение в бд на данный момент");
                 money = Integer.parseInt(rsMoney.getString(1));

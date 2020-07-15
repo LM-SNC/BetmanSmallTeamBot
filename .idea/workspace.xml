@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec0f7299-283e-46c3-a85e-47c72954d764" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/CasinoRouletteMiniGames.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/ConnectionManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/RrMiniGames.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/ShopMiniGames.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/UniversalFilterBot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/art/bot/CustomManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/art/bot/BanBot.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/art/bot/Blitz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/art/bot/Blitz.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/art/bot/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/art/bot/Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/art/bot/CasinoRouletteMiniGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/art/bot/CasinoRouletteMiniGames.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/art/bot/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/art/bot/ConnectionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/art/bot/RrMiniGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/art/bot/RrMiniGames.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +116,14 @@
       <option name="project" value="LOCAL" />
       <updated>1594339072010</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="New game! Double!">
+      <created>1594681197851</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1594681197851</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -140,6 +144,7 @@
     <MESSAGE value="GiftBot fix more bugs" />
     <MESSAGE value="GiftBot - наконец-то сделан )" />
     <MESSAGE value="Delete giftbot :( | Create new game - blitz with mysql and save data." />
-    <option name="LAST_COMMIT_MESSAGE" value="Delete giftbot :( | Create new game - blitz with mysql and save data." />
+    <MESSAGE value="New game! Double!" />
+    <option name="LAST_COMMIT_MESSAGE" value="New game! Double!" />
   </component>
 </project>

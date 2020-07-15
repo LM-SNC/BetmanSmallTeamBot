@@ -6,18 +6,17 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class Blitz extends ListenerAdapter {
     private MyRunnableBlitz myRunnableBlitz;
     public ConnectionManager connectionManager;
     private Thread t;
-    String[] words = {};
+    String[] words = {"Пиво", "Золотая", "Ветер", "Будапешт"};
     boolean[] wordsBool;
     String textChannelString = "719317467117256794";
     TextChannel txtChannel;
@@ -28,16 +27,6 @@ public class Blitz extends ListenerAdapter {
 
     @Override
     public void onReady(@Nonnull ReadyEvent event) {
-
-        txtChannel = event.getJDA().getTextChannelById(textChannelString);
-        wordsBool = new boolean[words.length];
-        myRunnableBlitz = new MyRunnableBlitz(event, this);
-        connectionManager = new ConnectionManager();
-        connectionManager.onConnectionBd();
-        t = new Thread(myRunnableBlitz);
-        t.start();
-
-
         //txtChannel.sendMessage("Викторина скоро начнётся!");
     }
 
@@ -95,22 +84,35 @@ public class Blitz extends ListenerAdapter {
     @Override
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
 
-        int score;
-        score = 0;
-
-        if (starCount < 2) {
-            score = 5;
-        } else if (starCount < 3) {
-            score = 3;
-        } else if (starCount < 5) {
-            score = 2;
-        } else {
-            score = 1;
-        }
         String[] message = event.getMessage().getContentRaw().split(" ");
+
+        if (message[0].equalsIgnoreCase("!start")) {
+            txtChannel = event.getJDA().getTextChannelById(textChannelString);
+            wordsBool = new boolean[words.length];
+            myRunnableBlitz = new MyRunnableBlitz(event, this);
+            connectionManager = new ConnectionManager();
+            connectionManager.onConnectionBd();
+            t = new Thread(myRunnableBlitz);
+            t.start();
+        }
+
+
         for (int i = 0; i < words.length; i++) {
             if (message[0].equalsIgnoreCase(words[i]))
                 if (!wordsBool[i]) {
+                    int score;
+                    score = 0;
+
+                    if (starCount < 2) {
+                        score = 5;
+                    } else if (starCount < 3) {
+                        score = 3;
+                    } else if (starCount < 5) {
+                        score = 2;
+                    } else {
+                        score = 1;
+                    }
+
                     txtChannel.sendMessage(event.getMember().getEffectiveName() + " , ты успешно отгадал слово!" + " + " + score + " score!").complete();
                     wordsBool[i] = true;
                     connectionManager.onAddScore(event.getMember().getId(), score);

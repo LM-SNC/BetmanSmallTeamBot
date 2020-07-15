@@ -21,6 +21,7 @@ public class CasinoRouletteMiniGames extends ListenerAdapter {
     float intervalSpeed = 0.5f;
     int winnerMoney = 0;
 
+
     @Override
     public void onReady(@Nonnull ReadyEvent event) {
         connectionManager = new ConnectionManager();
@@ -39,7 +40,7 @@ public class CasinoRouletteMiniGames extends ListenerAdapter {
         if (!isGame && !event.getAuthor().isBot()) {
             if (event.getChannel().getId().equalsIgnoreCase("731254314907074681") && message[0].equalsIgnoreCase("!roll") && message.length == 3) {
                 if (message[1].matches("[-+]?\\d+")) {
-                    if(Integer.parseInt(message[1]) <= 0){
+                    if (Integer.parseInt(message[1]) <= 0) {
                         event.getChannel().sendMessage("Ошибка! Число должно быть больше нуля!").queue();
                         return;
                     }
@@ -77,16 +78,16 @@ public class CasinoRouletteMiniGames extends ListenerAdapter {
                             }
                             System.out.println(randomColorList.size());
                             if (onRacString(randomColorList.get(5)).equalsIgnoreCase(message[2])) {
-                                if(message[2].equalsIgnoreCase("green")){
-                                    money += winnerMoney * 10;;
+                                if (message[2].equalsIgnoreCase("green")) {
+                                    money += winnerMoney * 10;
                                     event.getChannel().sendMessage("Успех! Теперь у вас на балансе: " + money).queueAfter(25, TimeUnit.SECONDS);
                                     connectionManager.onAddScore(event.getMember().getId(), winnerMoney * 10);
-                                }else {
+                                } else {
                                     money += winnerMoney * 2;
                                     event.getChannel().sendMessage("Успех! Теперь у вас на балансе: " + money).queueAfter(25, TimeUnit.SECONDS);
                                     connectionManager.onAddScore(event.getMember().getId(), winnerMoney * 2);
                                 }
-                            }else {
+                            } else {
                                 money -= winnerMoney;
                                 event.getChannel().sendMessage("К сожалению вы проиграли :( теперь у вас на балансе: " + money).queueAfter(25, TimeUnit.SECONDS);
                                 connectionManager.onRemoveScore(event.getMember().getId(), winnerMoney);
